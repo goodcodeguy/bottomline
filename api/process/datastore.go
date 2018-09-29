@@ -7,7 +7,7 @@ import (
 )
 
 var log = logger.New("bottomline.process")
-var cfg = config.Configuration()
+var cfg = config.GetConfiguration()
 var db *database.DB = initializeDatabase()
 
 func initializeDatabase() *database.DB {

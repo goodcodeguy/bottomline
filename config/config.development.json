@@ -1,0 +1,9 @@
+{
+  "BOTTOMLINE_LOGLEVEL": "debug",
+  "BOTTOMLINE_DBHOST": "localhost",
+  "BOTTOMLINE_DBPORT": "",
+  "BOTTOMLINE_DBUSER": "bottomline_dev",
+  "BOTTOMLINE_DBPASS": "bottomline",
+  "BOTTOMLINE_DBNAME": "bottomline_dev",
+  "BOTTOMLINE_DBSSLMODE": "disable"
+}

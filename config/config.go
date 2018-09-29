@@ -1,13 +1,18 @@
 package config
 
 import (
-	"log"
+	"fmt"
+	"os"
+	"path"
+	"path/filepath"
+	"runtime"
+	"strings"
 
-	"github.com/kelseyhightower/envconfig"
+	"github.com/tkanos/gonfig"
 )
 
-// ConfigurationSpec defines the structure for configuration
-type ConfigurationSpec struct {
+// Configuration defines the structure for configuration
+type Configuration struct {
 	LogLevel string
 
 	// Database Configuration
@@ -19,14 +24,27 @@ type ConfigurationSpec struct {
 	DBSSLMode string
 }
 
-// Configuration from the environment
-func Configuration() ConfigurationSpec {
-	var configuration ConfigurationSpec
+// GetConfiguration from the environment
+func GetConfiguration() Configuration {
 
-	err := envconfig.Process("bottomline", &configuration)
+	configuration := Configuration{}
+	err := gonfig.GetConf(getFileName(), &configuration)
 	if err != nil {
-		log.Fatalf("Error Initializing Configuration: %s", err.Error())
+		fmt.Printf("Error reading configuration file: %s", err.Error())
+		os.Exit(500)
 	}
 
 	return configuration
+}
+
+func getFileName() string {
+	env := os.Getenv("ENV")
+	if len(env) == 0 {
+		env = "development"
+	}
+	filename := []string{"config.", env, ".json"}
+	_, dirname, _, _ := runtime.Caller(0)
+	filePath := path.Join(filepath.Dir(dirname), strings.Join(filename, ""))
+
+	return filePath
 }

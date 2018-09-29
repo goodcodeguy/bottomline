@@ -11,7 +11,7 @@ import (
 func New(module string) loggo.Logger {
 	var logger loggo.Logger
 
-	cfg := config.Configuration()
+	cfg := config.GetConfiguration()
 	logger = loggo.GetLogger(module)
 	logger.SetLogLevel(logLevel(cfg.LogLevel))
 
