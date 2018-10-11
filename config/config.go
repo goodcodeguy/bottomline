@@ -15,6 +15,8 @@ import (
 type Configuration struct {
 	LogLevel string
 
+	ServicePort string
+
 	// Database Configuration
 	DBHost    string
 	DBPort    string
@@ -26,14 +28,12 @@ type Configuration struct {
 
 // GetConfiguration from the environment
 func GetConfiguration() Configuration {
-
 	configuration := Configuration{}
 	err := gonfig.GetConf(getFileName(), &configuration)
 	if err != nil {
 		fmt.Printf("Error reading configuration file: %s", err.Error())
 		os.Exit(500)
 	}
-
 	return configuration
 }
 

@@ -1,9 +1,10 @@
 {
-  "BOTTOMLINE_LOGLEVEL": "debug",
-  "BOTTOMLINE_DBHOST": "localhost",
-  "BOTTOMLINE_DBPORT": "",
-  "BOTTOMLINE_DBUSER": "bottomline_dev",
-  "BOTTOMLINE_DBPASS": "bottomline",
-  "BOTTOMLINE_DBNAME": "bottomline_dev",
-  "BOTTOMLINE_DBSSLMODE": "disable"
+  "LOGLEVEL": "debug",
+  "SERVICEPORT": "3000",
+  "DBHOST": "bottomline_postgres",
+  "DBPORT": "5432",
+  "DBUSER": "bottomline_dev",
+  "DBPASS": "bottomline",
+  "DBNAME": "bottomline_dev",
+  "DBSSLMODE": "disable"
 }

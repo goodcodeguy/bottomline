@@ -7,7 +7,7 @@ func GetAllConfigurations() []ProcessConfiguration {
       id,
       description,
       configuration
-    from process_configuration`
+    from bottomline.process_configuration`
 
 	rows, _ := db.Query(qry)
 
@@ -26,4 +26,13 @@ func GetAllConfigurations() []ProcessConfiguration {
 		configurations = append(configurations, processConfiguration)
 	}
 	return configurations
+}
+
+// SaveConfiguration will save a new configuration
+func SaveConfiguration(conf ProcessConfiguration) {
+	log.Infof("Inserting a new configuration")
+
+	qry := `INSERT INTO bottomline.process_configuration (name, description, "configuration") VALUES ("test", "another test", "{}")`
+
+	db.Query(qry)
 }
