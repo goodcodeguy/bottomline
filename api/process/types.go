@@ -8,9 +8,11 @@ type RunningInstance struct {
 
 // ProcessConfiguration Describes the over arching configuration for a process
 type ProcessConfiguration struct {
-	ID            int
-	Description   string
-	Configuration string
+	ID            int       `json:"id"`
+	Name          string    `json:"name"`
+	Description   string    `json:"description"`
+	Configuration string    `json:"configuration"`
+	Workspace     Workspace `json:"-"`
 }
 
 type Workspace struct {

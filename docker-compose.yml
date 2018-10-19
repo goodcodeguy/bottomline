@@ -1,12 +1,12 @@
 version: '3'
 services:
-  bottomline_service:
-    container_name: "bottomline_service"
-    build: ./
-    volumes:
-      - ./:/go/src/github.com/goodcodeguy/bottomline
-    ports:
-      - "3000:3000"
+  # bottomline_service:
+  #   container_name: "bottomline_service"
+  #   build: ./
+  #   volumes:
+  #     - ./:/go/src/github.com/goodcodeguy/bottomline
+  #   ports:
+  #     - "3000:3000"
   bottomline_postgres:
     container_name: "bottomline_postgres"
     image: "postgres:alpine"
