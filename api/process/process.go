@@ -11,6 +11,7 @@ func GetAllConfigurations() []ProcessConfiguration {
 	log.Infof("Querying all Process Configurations")
 	qry := `select
       id,
+			name,
       description,
       configuration
     from bottomline.process_configuration`
@@ -24,6 +25,7 @@ func GetAllConfigurations() []ProcessConfiguration {
 		processConfiguration := ProcessConfiguration{}
 		err := rows.Scan(
 			&processConfiguration.ID,
+			&processConfiguration.Name,
 			&processConfiguration.Description,
 			&processConfiguration.Configuration)
 		if err != nil {
