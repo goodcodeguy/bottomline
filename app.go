@@ -5,7 +5,10 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"github.com/goodcodeguy/bottomline/api/process"
+	"github.com/goodcodeguy/bottomline/api/processes"
+	"github.com/goodcodeguy/bottomline/api/steps"
+	"github.com/goodcodeguy/bottomline/api/users"
+	"github.com/goodcodeguy/bottomline/api/workspaces"
 	"github.com/goodcodeguy/bottomline/config"
 	"github.com/goodcodeguy/bottomline/lib/logger"
 )
@@ -13,6 +16,7 @@ import (
 var cfg = config.GetConfiguration()
 var log = logger.New("bottomline.main")
 
+// Routes define the primary routes for the webservice
 func Routes() *chi.Mux {
 	router := chi.NewRouter()
 	router.Use(
@@ -23,7 +27,10 @@ func Routes() *chi.Mux {
 	)
 
 	router.Route("/v1", func(r chi.Router) {
-		r.Mount("/processConfiguration", process.Routes())
+		r.Mount("/workspace", workspaces.Routes())
+		r.Mount("/process-configuration", processes.Routes())
+		r.Mount("/steps", steps.Routes())
+		r.Mount("/users", users.Routes())
 	})
 
 	return router
