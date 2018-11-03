@@ -1,4 +1,4 @@
-package process
+package processes
 
 // RunningInstance is a representation of a running process
 type RunningInstance struct {

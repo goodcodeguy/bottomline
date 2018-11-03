@@ -1,4 +1,4 @@
-package process
+package processes
 
 import (
 	"github.com/goodcodeguy/bottomline/config"
