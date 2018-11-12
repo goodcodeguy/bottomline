@@ -27,8 +27,8 @@ func Routes() *chi.Mux {
 	)
 
 	router.Route("/v1", func(r chi.Router) {
-		r.Mount("/workspace", workspaces.Routes())
-		r.Mount("/process-configuration", processes.Routes())
+		r.Mount("/workspaces", workspaces.Routes())
+		r.Mount("/process-configurations", processes.Routes())
 		r.Mount("/steps", steps.Routes())
 		r.Mount("/users", users.Routes())
 	})

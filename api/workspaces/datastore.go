@@ -1,4 +1,4 @@
-package processes
+package workspaces
 
 import (
 	"github.com/goodcodeguy/bottomline/config"
@@ -6,7 +6,7 @@ import (
 	"github.com/goodcodeguy/bottomline/lib/logger"
 )
 
-var log = logger.New("bottomline.process")
+var log = logger.New("bottomline.workspaces")
 var cfg = config.GetConfiguration()
 var db *database.DB = initializeDatabase()
 

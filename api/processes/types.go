@@ -1,5 +1,7 @@
 package processes
 
+import "github.com/goodcodeguy/bottomline/api/workspaces"
+
 // RunningInstance is a representation of a running process
 type RunningInstance struct {
 	ID   int
@@ -8,16 +10,11 @@ type RunningInstance struct {
 
 // ProcessConfiguration Describes the over arching configuration for a process
 type ProcessConfiguration struct {
-	ID            int       `json:"id"`
-	Name          string    `json:"name"`
-	Description   string    `json:"description"`
-	Configuration string    `json:"configuration"`
-	Workspace     Workspace `json:"-"`
-}
-
-type Workspace struct {
-	ID   int
-	Name string
+	ID            int                  `json:"id"`
+	Name          string               `json:"name"`
+	Description   string               `json:"description"`
+	Configuration string               `json:"configuration"`
+	Workspace     workspaces.Workspace `json:"-"`
 }
 
 // StepStatus describes the status of a step
