@@ -1,4 +1,4 @@
-package user
+package workspace
 
 import (
 	"github.com/go-chi/chi"
@@ -6,13 +6,13 @@ import (
 	"github.com/goodcodeguy/bottomline/lib/logger"
 )
 
-var service = &UserService{datastores.PrimaryDatastore, logger.New("bottomline.user")}
-var controller = &UserController{service}
+var service = &WorkspaceService{datastores.PrimaryDatastore, logger.New("bottomline.workspace")}
+var controller = &WorkspaceController{service}
 
 func Routes() *chi.Mux {
 	router := chi.NewRouter()
 
-	router.Get("/", controller.getAllUsers)
+	router.Get("/", controller.getAllWorkspaces)
 
 	return router
 }

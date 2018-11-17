@@ -8,7 +8,7 @@ import (
 	"github.com/goodcodeguy/bottomline/api/processconfiguration"
 	"github.com/goodcodeguy/bottomline/api/steps"
 	"github.com/goodcodeguy/bottomline/api/user"
-	"github.com/goodcodeguy/bottomline/api/workspaces"
+	"github.com/goodcodeguy/bottomline/api/workspace"
 	"github.com/goodcodeguy/bottomline/config"
 	"github.com/goodcodeguy/bottomline/lib/logger"
 )
@@ -27,7 +27,7 @@ func Routes() *chi.Mux {
 	)
 
 	router.Route("/v1", func(r chi.Router) {
-		r.Mount("/workspace", workspaces.Routes())
+		r.Mount("/workspace", workspace.Routes())
 		r.Mount("/process-configuration", processconfiguration.Routes())
 		r.Mount("/step", steps.Routes())
 		r.Mount("/user", user.Routes())
