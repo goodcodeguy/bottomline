@@ -14,7 +14,7 @@ func (ctl WorkspaceController) getAllWorkspaces(w http.ResponseWriter, r *http.R
 
 	j, err := json.Marshal(workspaces)
 	if err != nil {
-		http.Error(w, http.StatusText(500), 500)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 

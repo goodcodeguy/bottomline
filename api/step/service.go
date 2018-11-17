@@ -1,4 +1,14 @@
-package steps
+package step
+
+import (
+	"github.com/goodcodeguy/bottomline/lib/database"
+	"github.com/juju/loggo"
+)
+
+type StepService struct {
+	db  *database.DB
+	log loggo.Logger
+}
 
 // StepStatus describes the status of a step
 type StepStatus int

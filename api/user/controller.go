@@ -14,7 +14,7 @@ func (ctl UserController) getAllUsers(w http.ResponseWriter, r *http.Request) {
 
 	j, err := json.Marshal(users)
 	if err != nil {
-		http.Error(w, http.StatusText(500), 500)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
