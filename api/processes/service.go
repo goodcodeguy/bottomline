@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"github.com/goodcodeguy/bottomline/api/workspaces"
 	"github.com/goodcodeguy/bottomline/lib/database"
 	"github.com/juju/loggo"
 )
@@ -14,6 +15,15 @@ import (
 type ProcessConfigurationService struct {
 	db  *database.DB
 	log loggo.Logger
+}
+
+// ProcessConfiguration Describes the over arching configuration for a process
+type ProcessConfiguration struct {
+	ID            int                  `json:"id"`
+	Name          string               `json:"name"`
+	Description   string               `json:"description"`
+	Configuration string               `json:"configuration"`
+	Workspace     workspaces.Workspace `json:"-"`
 }
 
 // GetAllConfigurations Retrieves all Process Configurations
