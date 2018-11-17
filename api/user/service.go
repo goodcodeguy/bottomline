@@ -1,7 +1,22 @@
-package users
+package user
+
+import (
+	"github.com/goodcodeguy/bottomline/lib/database"
+	"github.com/juju/loggo"
+)
+
+type UserService struct {
+	db  *database.DB
+	log loggo.Logger
+}
+
+type User struct {
+	ID   int
+	Name string
+}
 
 // GetAllUsers Retrieves all Process Configurations
-func (svc UserService) GetAllUsers() []User {
+func (svc UserService) getAllUsers() []User {
 	svc.log.Infof("Querying all Users")
 	qry := `select
       id,
