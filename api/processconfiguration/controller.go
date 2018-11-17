@@ -1,6 +1,7 @@
 package processconfiguration
 
 import (
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -13,7 +14,7 @@ type ProcessConfigurationController struct {
 }
 
 func (ctl ProcessConfigurationController) getAllProcessConfiguration(w http.ResponseWriter, r *http.Request) {
-	processConfigurations := ctl.svc.GetAllConfigurations()
+	processConfigurations := ctl.svc.getAllConfigurations()
 
 	j, err := json.Marshal(processConfigurations)
 	if err != nil {
@@ -46,7 +47,7 @@ func (ctl ProcessConfigurationController) getProcessConfiguration(w http.Respons
 
 func (ctl ProcessConfigurationController) deleteProcessConfiguration(w http.ResponseWriter, r *http.Request) {
 	processConfigurationID := chi.URLParam(r, "process_configuration_id")
-	err := ctl.svc.DeleteProcessConfiguration(processConfigurationID)
+	err := ctl.svc.deleteProcessConfiguration(processConfigurationID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -73,10 +74,55 @@ func (ctl ProcessConfigurationController) updateProcessConfiguration(w http.Resp
 		return
 	}
 
-	err = ctl.svc.UpdateProcessConfiguration(p)
+	err = ctl.svc.updateProcessConfiguration(p)
 	if err != nil {
 		ctl.svc.log.Criticalf("Error updating Process Configuration: %s", err.Error())
 	}
 
 	http.StatusText(http.StatusNoContent)
+}
+
+func (ctl ProcessConfigurationController) createProcessConfiguration(w http.ResponseWriter, r *http.Request) {
+
+	b, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		ctl.svc.log.Criticalf("Error reading POST Body: %s", err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var p ProcessConfiguration
+	err = json.Unmarshal(b, &p)
+	if err != nil {
+		ctl.svc.log.Criticalf("Error unmarshalling Data: %s", err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	ctl.svc.log.Infof("Process Configuration: Name: %s, Description: %s, Configuration: %s", p.Name, p.Description, p.Configuration)
+
+	err = ctl.svc.createProcessConfiguration(p)
+	if err != nil {
+		ctl.svc.log.Criticalf("Error Creating Process Configuration: %s", err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("{message: 'success'}"))
+}
+
+func (ctl ProcessConfigurationController) processConfigurationCtx(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		processConfigurationID := chi.URLParam(r, "process_configuration_id")
+		processConfiguration, err := ctl.svc.getProcessConfiguration(processConfigurationID)
+		if err != nil {
+			http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+			return
+		}
+		ctx := context.WithValue(r.Context(), "process_configuration", processConfiguration)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
 }

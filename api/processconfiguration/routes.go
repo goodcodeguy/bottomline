@@ -11,11 +11,11 @@ var controller = &ProcessConfigurationController{service}
 
 func Routes() *chi.Mux {
 	router := chi.NewRouter()
-	router.Post("/", service.createProcessConfiguration)
+	router.Post("/", controller.createProcessConfiguration)
 	router.Get("/", controller.getAllProcessConfiguration)
 
 	router.Route("/{process_configuration_id}", func(router chi.Router) {
-		router.Use(service.processConfigurationCtx)
+		router.Use(controller.processConfigurationCtx)
 
 		router.Get("/", controller.getProcessConfiguration)
 		router.Put("/", controller.updateProcessConfiguration)

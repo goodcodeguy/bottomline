@@ -10,6 +10,7 @@ type WorkspaceController struct {
 }
 
 func (ctl WorkspaceController) getAllWorkspaces(w http.ResponseWriter, r *http.Request) {
+
 	workspaces := ctl.svc.getAllWorkspaces()
 
 	j, err := json.Marshal(workspaces)
