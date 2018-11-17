@@ -40,3 +40,18 @@ func (svc WorkspaceService) getAllWorkspaces() []Workspace {
 	}
 	return workspaces
 }
+
+func (svc WorkspaceService) getWorkspace(id string) (Workspace, error) {
+	qry := `SELECT
+						id,
+						name
+					FROM bottomline.workspaces
+					WHERE id = $1`
+
+	w := Workspace{}
+	err := svc.db.QueryRow(qry, id).Scan(&w.ID, &w.Name)
+	if err != nil {
+		svc.log.Criticalf("Error Reading results: %s", err.Error())
+	}
+	return w, err
+}
