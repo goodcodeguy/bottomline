@@ -6,13 +6,13 @@ import (
 	"github.com/goodcodeguy/bottomline/lib/logger"
 )
 
-var service = &WorkspaceService{datastores.PrimaryDatastore, logger.New("bottomline.workspace")}
-var controller = &WorkspaceController{service}
+var workspaceService = &WorkspaceService{datastores.PrimaryDatastore, logger.New("bottomline.workspace")}
+var workspaceController = &WorkspaceController{workspaceService}
 
 func Routes() *chi.Mux {
 	router := chi.NewRouter()
 
-	router.Get("/", controller.getAllWorkspaces)
+	router.Get("/", workspaceController.getAllWorkspaces)
 
 	return router
 }

@@ -6,20 +6,20 @@ import (
 	"github.com/goodcodeguy/bottomline/lib/logger"
 )
 
-var service = &ProcessConfigurationService{datastores.PrimaryDatastore, logger.New("bottomline.processconfiguration")}
-var controller = &ProcessConfigurationController{service}
+var processConfigurationService = &ProcessConfigurationService{datastores.PrimaryDatastore, logger.New("bottomline.processconfiguration")}
+var processConfigurationController = &ProcessConfigurationController{processConfigurationService}
 
 func Routes() *chi.Mux {
 	router := chi.NewRouter()
-	router.Post("/", controller.createProcessConfiguration)
-	router.Get("/", controller.getAllProcessConfiguration)
+	router.Post("/", processConfigurationController.createProcessConfiguration)
+	router.Get("/", processConfigurationController.getAllProcessConfiguration)
 
 	router.Route("/{process_configuration_id}", func(router chi.Router) {
-		router.Use(controller.processConfigurationCtx)
+		router.Use(processConfigurationController.processConfigurationCtx)
 
-		router.Get("/", controller.getProcessConfiguration)
-		router.Put("/", controller.updateProcessConfiguration)
-		router.Delete("/", controller.deleteProcessConfiguration)
+		router.Get("/", processConfigurationController.getProcessConfiguration)
+		router.Put("/", processConfigurationController.updateProcessConfiguration)
+		router.Delete("/", processConfigurationController.deleteProcessConfiguration)
 	})
 	return router
 }

@@ -1,8 +1,9 @@
 package workspace
 
 import (
-	"encoding/json"
 	"net/http"
+
+	"github.com/goodcodeguy/bottomline/lib/controller"
 )
 
 type WorkspaceController struct {
@@ -10,15 +11,7 @@ type WorkspaceController struct {
 }
 
 func (ctl WorkspaceController) getAllWorkspaces(w http.ResponseWriter, r *http.Request) {
-
 	workspaces := ctl.svc.getAllWorkspaces()
 
-	j, err := json.Marshal(workspaces)
-	if err != nil {
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(j)
+	controller.RespondWithJSON(w, workspaces)
 }

@@ -6,13 +6,13 @@ import (
 	"github.com/goodcodeguy/bottomline/lib/logger"
 )
 
-var service = &StepService{datastores.PrimaryDatastore, logger.New("bottomline.step")}
-var controller = &StepController{service}
+var stepService = &StepService{datastores.PrimaryDatastore, logger.New("bottomline.step")}
+var stepController = &StepController{stepService}
 
 func Routes() *chi.Mux {
 	router := chi.NewRouter()
 
-	router.Get("/", controller.getAllSteps)
+	router.Get("/", stepController.getAllSteps)
 
 	return router
 }

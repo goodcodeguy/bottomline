@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"github.com/goodcodeguy/bottomline/lib/controller"
 )
 
 type ProcessConfigurationController struct {
@@ -16,14 +17,7 @@ type ProcessConfigurationController struct {
 func (ctl ProcessConfigurationController) getAllProcessConfiguration(w http.ResponseWriter, r *http.Request) {
 	processConfigurations := ctl.svc.getAllConfigurations()
 
-	j, err := json.Marshal(processConfigurations)
-	if err != nil {
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(j)
+	controller.RespondWithJSON(w, processConfigurations)
 }
 
 func (ctl ProcessConfigurationController) getProcessConfiguration(w http.ResponseWriter, r *http.Request) {
@@ -35,14 +29,7 @@ func (ctl ProcessConfigurationController) getProcessConfiguration(w http.Respons
 		return
 	}
 
-	j, err := json.Marshal(processConfiguration)
-	if err != nil {
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(j)
+	controller.RespondWithJSON(w, processConfiguration)
 }
 
 func (ctl ProcessConfigurationController) deleteProcessConfiguration(w http.ResponseWriter, r *http.Request) {
@@ -53,7 +40,7 @@ func (ctl ProcessConfigurationController) deleteProcessConfiguration(w http.Resp
 		return
 	}
 
-	http.StatusText(204)
+	http.StatusText(http.StatusNoContent)
 }
 
 func (ctl ProcessConfigurationController) updateProcessConfiguration(w http.ResponseWriter, r *http.Request) {
@@ -111,7 +98,6 @@ func (ctl ProcessConfigurationController) createProcessConfiguration(w http.Resp
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("{message: 'success'}"))
 }
 
 func (ctl ProcessConfigurationController) processConfigurationCtx(next http.Handler) http.Handler {
