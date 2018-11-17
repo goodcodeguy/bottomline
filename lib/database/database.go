@@ -35,9 +35,15 @@ func Open(cfg Config) *DB {
 		cfg.DBSSLMode)
 
 	log.Infof("Opening connection to database (%s)", cfg.DBHost)
+
 	db, err := sql.Open("postgres", dbinfo)
 	if err != nil {
 		log.Criticalf("Error when connecting to database: %s", err.Error())
+	}
+
+	err = db.Ping()
+	if err != nil {
+		log.Criticalf("Error when pinging database: %s", err.Error())
 	}
 
 	return &DB{DB: db}
