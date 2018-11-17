@@ -1,4 +1,4 @@
-package processes
+package processconfiguration
 
 import (
 	"encoding/json"

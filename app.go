@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"github.com/goodcodeguy/bottomline/api/processes"
+	"github.com/goodcodeguy/bottomline/api/processconfiguration"
 	"github.com/goodcodeguy/bottomline/api/steps"
 	"github.com/goodcodeguy/bottomline/api/users"
 	"github.com/goodcodeguy/bottomline/api/workspaces"
@@ -28,7 +28,7 @@ func Routes() *chi.Mux {
 
 	router.Route("/v1", func(r chi.Router) {
 		r.Mount("/workspaces", workspaces.Routes())
-		r.Mount("/process-configurations", processes.Routes())
+		r.Mount("/process-configurations", processconfiguration.Routes())
 		r.Mount("/steps", steps.Routes())
 		r.Mount("/users", users.Routes())
 	})

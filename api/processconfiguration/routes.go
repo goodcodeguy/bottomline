@@ -1,4 +1,4 @@
-package processes
+package processconfiguration
 
 import (
 	"github.com/go-chi/chi"
@@ -11,7 +11,7 @@ var controller = &ProcessConfigurationController{service}
 
 func Routes() *chi.Mux {
 	router := chi.NewRouter()
-	router.Post("/", service.CreateProcessConfiguration)
+	router.Post("/", service.createProcessConfiguration)
 	router.Get("/", controller.getAllProcessConfiguration)
 
 	router.Route("/{process_configuration_id}", func(router chi.Router) {

@@ -1,4 +1,4 @@
-package processes
+package processconfiguration
 
 import (
 	"context"
@@ -90,7 +90,7 @@ func (svc ProcessConfigurationService) DeleteProcessConfiguration(id string) err
 	return err
 }
 
-func (svc ProcessConfigurationService) CreateProcessConfiguration(w http.ResponseWriter, r *http.Request) {
+func (svc ProcessConfigurationService) createProcessConfiguration(w http.ResponseWriter, r *http.Request) {
 
 	b, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
