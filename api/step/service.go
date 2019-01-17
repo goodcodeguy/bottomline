@@ -1,39 +1,10 @@
 package step
 
-import (
-	"github.com/goodcodeguy/bottomline/lib/database"
-	"github.com/juju/loggo"
-)
-
 type StepService struct {
-	db  *database.DB
-	log loggo.Logger
+	repo *StepRepo
 }
 
-// StepStatus describes the status of a step
-type StepStatus int
-
-const (
-	NotStarted StepStatus = 0
-	InProgress StepStatus = 1
-	Complete   StepStatus = 3
-	Error      StepStatus = -1
-)
-
-func (s StepStatus) String() string {
-	v := [...]string{
-		"NotStarted",
-		"InProgress",
-		"Complete",
-		"Error",
-	}
-	return v[s]
-}
-
-type Step struct {
-	ID           int
-	Name         string
-	Description  string
-	Status       StepStatus
-	ErrorMessage string
+// GetAllSteps Retrieves all Process Configurations
+func (svc StepService) getAllSteps() []Step {
+	return svc.repo.getAllSteps()
 }

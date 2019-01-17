@@ -34,11 +34,11 @@ func (ctl ProcessConfigurationController) getProcessConfiguration(w http.Respons
 
 func (ctl ProcessConfigurationController) deleteProcessConfiguration(w http.ResponseWriter, r *http.Request) {
 	processConfigurationID := chi.URLParam(r, "process_configuration_id")
-	err := ctl.svc.deleteProcessConfiguration(processConfigurationID)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	ctl.svc.deleteProcessConfiguration(processConfigurationID)
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
 
 	http.StatusText(http.StatusNoContent)
 }
@@ -61,10 +61,10 @@ func (ctl ProcessConfigurationController) updateProcessConfiguration(w http.Resp
 		return
 	}
 
-	err = ctl.svc.updateProcessConfiguration(p)
-	if err != nil {
-		ctl.svc.log.Criticalf("Error updating Process Configuration: %s", err.Error())
-	}
+	ctl.svc.updateProcessConfiguration(p)
+	// if err != nil {
+	// 	ctl.svc.log.Criticalf("Error updating Process Configuration: %s", err.Error())
+	// }
 
 	http.StatusText(http.StatusNoContent)
 }
@@ -89,12 +89,12 @@ func (ctl ProcessConfigurationController) createProcessConfiguration(w http.Resp
 
 	ctl.svc.log.Infof("Process Configuration: Name: %s, Description: %s, Configuration: %s", p.Name, p.Description, p.Configuration)
 
-	err = ctl.svc.createProcessConfiguration(p)
-	if err != nil {
-		ctl.svc.log.Criticalf("Error Creating Process Configuration: %s", err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	ctl.svc.createProcessConfiguration(p)
+	// if err != nil {
+	// 	ctl.svc.log.Criticalf("Error Creating Process Configuration: %s", err.Error())
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
@@ -103,11 +103,11 @@ func (ctl ProcessConfigurationController) createProcessConfiguration(w http.Resp
 func (ctl ProcessConfigurationController) processConfigurationCtx(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		processConfigurationID := chi.URLParam(r, "process_configuration_id")
-		processConfiguration, err := ctl.svc.getProcessConfiguration(processConfigurationID)
-		if err != nil {
-			http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-			return
-		}
+		processConfiguration := ctl.svc.getProcessConfiguration(processConfigurationID)
+		// if err != nil {
+		// 	http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		// 	return
+		// }
 		ctx := context.WithValue(r.Context(), "process_configuration", processConfiguration)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})

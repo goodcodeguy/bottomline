@@ -6,7 +6,8 @@ import (
 	"github.com/goodcodeguy/bottomline/lib/logger"
 )
 
-var userService = &UserService{datastores.PrimaryDatastore, logger.New("bottomline.user")}
+var userRepo = &UserRepo{datastores.PrimaryDatastore, logger.New("bottomline.workspace")}
+var userService = &UserService{userRepo}
 var userController = &UserController{userService}
 
 func Routes() *chi.Mux {

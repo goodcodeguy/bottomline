@@ -7,11 +7,15 @@ import (
 )
 
 type UserController struct {
-	svc *UserService
+	userService *UserService
 }
 
 func (ctl UserController) getAllUsers(w http.ResponseWriter, r *http.Request) {
-	users := ctl.svc.getAllUsers()
+	users := ctl.userService.getAllUsers()
 
 	controller.RespondWithJSON(w, users)
+}
+
+func (ctl UserController) getAllUserWorkspaces(w http.ResponseWriter, r *http.Request) {
+
 }

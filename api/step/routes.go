@@ -6,7 +6,8 @@ import (
 	"github.com/goodcodeguy/bottomline/lib/logger"
 )
 
-var stepService = &StepService{datastores.PrimaryDatastore, logger.New("bottomline.step")}
+var stepRepo = &StepRepo{datastores.PrimaryDatastore, logger.New("bottomline.step")}
+var stepService = &StepService{stepRepo}
 var stepController = &StepController{stepService}
 
 func Routes() *chi.Mux {

@@ -2,6 +2,8 @@ package step
 
 import (
 	"net/http"
+
+	"github.com/goodcodeguy/bottomline/lib/controller"
 )
 
 type StepController struct {
@@ -9,5 +11,7 @@ type StepController struct {
 }
 
 func (ctl StepController) getAllSteps(w http.ResponseWriter, r *http.Request) {
-	http.Error(w, http.StatusText(http.StatusNotImplemented), http.StatusNotImplemented)
+	users := ctl.svc.getAllSteps()
+
+	controller.RespondWithJSON(w, users)
 }

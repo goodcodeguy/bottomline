@@ -6,7 +6,8 @@ import (
 	"github.com/goodcodeguy/bottomline/lib/logger"
 )
 
-var processConfigurationService = &ProcessConfigurationService{datastores.PrimaryDatastore, logger.New("bottomline.processconfiguration")}
+var processConfigurationRepo = &ProcessConfigurationRepo{datastores.PrimaryDatastore}
+var processConfigurationService = &ProcessConfigurationService{processConfigurationRepo, logger.New("bottomline.processconfiguration")}
 var processConfigurationController = &ProcessConfigurationController{processConfigurationService}
 
 func Routes() *chi.Mux {
