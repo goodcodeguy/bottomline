@@ -10,7 +10,13 @@ var processConfigurationRepo = &ProcessConfigurationRepo{datastores.PrimaryDatas
 var processConfigurationService = &ProcessConfigurationService{processConfigurationRepo, logger.New("bottomline.processconfiguration")}
 var processConfigurationController = &ProcessConfigurationController{processConfigurationService}
 
+func migrateModels() {
+	processConfigurationRepo.migrate()
+}
+
 func Routes() *chi.Mux {
+	migrateModels()
+
 	router := chi.NewRouter()
 	router.Post("/", processConfigurationController.createProcessConfiguration)
 	router.Get("/", processConfigurationController.getAllProcessConfiguration)

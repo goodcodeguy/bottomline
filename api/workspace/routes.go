@@ -10,18 +10,23 @@ var workspaceRepo = &WorkspaceRepo{datastores.PrimaryDatastore, logger.New("bott
 var workspaceService = &WorkspaceService{workspaceRepo}
 var workspaceController = &WorkspaceController{workspaceService}
 
+func migrateModels() {
+	workspaceRepo.migrate()
+}
+
 func Routes() *chi.Mux {
+	migrateModels()
+
 	router := chi.NewRouter()
 	router.Post("/", workspaceController.createWorkspace)
 	router.Get("/", workspaceController.getAllWorkspaces)
+	router.Put("/", workspaceController.updateWorkspace)
 
 	router.Get("/user/{user_id}", workspaceController.getWorkspacesByUserID)
 
 	router.Route("/{workspace_id}", func(router chi.Router) {
-		router.Use(workspaceController.workspaceCtx)
-
 		router.Get("/", workspaceController.getWorkspace)
-		router.Put("/", workspaceController.updateWorkspace)
+
 		router.Delete("/", workspaceController.deleteWorkspace)
 	})
 

@@ -2,17 +2,22 @@ package user
 
 import (
 	"github.com/goodcodeguy/bottomline/lib/database"
+	"github.com/jinzhu/gorm"
 	"github.com/juju/loggo"
 )
 
 type User struct {
-	ID   int
+	gorm.Model
 	Name string
 }
 
 type UserRepo struct {
 	db  *database.DB
 	log loggo.Logger
+}
+
+func (repo UserRepo) migrate() {
+	repo.db.AutoMigrate(&User{})
 }
 
 func (repo UserRepo) getAllUsers() []User {

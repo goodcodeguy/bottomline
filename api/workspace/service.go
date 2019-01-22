@@ -16,3 +16,7 @@ func (svc WorkspaceService) getWorkspace(id int) (Workspace, error) {
 func (svc WorkspaceService) getAllWorkspacesForUser(userID int) []Workspace {
 	return svc.repo.getAllWorkspacesForUser(userID)
 }
+
+func (svc WorkspaceService) updateWorkspace(workspace Workspace) {
+	svc.repo.updateWorkspace(workspace)
+}
