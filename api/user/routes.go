@@ -10,13 +10,7 @@ var userRepo = &UserRepo{datastores.PrimaryDatastore, logger.New("bottomline.wor
 var userService = &UserService{userRepo}
 var userController = &UserController{userService}
 
-func migrateModels() {
-	userRepo.migrate()
-}
-
 func Routes() *chi.Mux {
-	migrateModels()
-
 	router := chi.NewRouter()
 
 	router.Get("/", userController.getAllUsers)

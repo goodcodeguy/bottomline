@@ -2,7 +2,6 @@ package step
 
 import (
 	"github.com/goodcodeguy/bottomline/lib/database"
-	"github.com/jinzhu/gorm"
 	"github.com/juju/loggo"
 )
 
@@ -32,20 +31,14 @@ func (s StepStatus) String() string {
 }
 
 type Step struct {
-	gorm.Model
-
 	Name         string
 	Description  string
 	Status       StepStatus
 	ErrorMessage string
 }
 
-func (repo StepRepo) migrate() {
-	repo.db.AutoMigrate(&Step{})
-}
-
 func (repo StepRepo) getAllSteps() []Step {
 	steps := []Step{}
-	repo.db.Find(&steps)
+
 	return steps
 }
