@@ -10,12 +10,7 @@ var workspaceRepo = &WorkspaceRepo{datastores.PrimaryDatastore, logger.New("bott
 var workspaceService = &WorkspaceService{workspaceRepo}
 var workspaceController = &WorkspaceController{workspaceService}
 
-func migrateModels() {
-	workspaceRepo.migrate()
-}
-
 func Routes() *chi.Mux {
-	migrateModels()
 
 	router := chi.NewRouter()
 	router.Post("/", workspaceController.createWorkspace)

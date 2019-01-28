@@ -2,13 +2,13 @@ package user
 
 import (
 	"github.com/goodcodeguy/bottomline/lib/database"
-	"github.com/jinzhu/gorm"
 	"github.com/juju/loggo"
 )
 
 type User struct {
-	gorm.Model
-	Name string
+	database.Model
+
+	Name string `json:"name"`
 }
 
 type UserRepo struct {
@@ -16,18 +16,14 @@ type UserRepo struct {
 	log loggo.Logger
 }
 
-func (repo UserRepo) migrate() {
-	repo.db.AutoMigrate(&User{})
-}
-
 func (repo UserRepo) getAllUsers() []User {
 	users := []User{}
-	repo.db.Find(&users)
+	repo.db.Select(&users, "SELECT id, name, created_at, updated_at FROM bottomline.users")
 	return users
 }
 
 func (repo UserRepo) getUser(id int) (User, error) {
 	user := User{}
-	err := repo.db.Find(&user, id).Error
+	err := repo.db.Get(&user, "SELECT * FROM bottomline.users WHERE id = ?", id)
 	return user, err
 }

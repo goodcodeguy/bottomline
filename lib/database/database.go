@@ -4,13 +4,20 @@ import (
 	"fmt"
 
 	"github.com/goodcodeguy/bottomline/lib/logger"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/jmoiron/sqlx"
+	"github.com/lib/pq"
+	_ "github.com/lib/pq"
 )
 
 // DB holds the database connection
 type DB struct {
-	*gorm.DB
+	*sqlx.DB
+}
+
+type Model struct {
+	Id        uint        `json:"id"`
+	CreatedAt pq.NullTime `db:"created_at" json:"created_at"`
+	UpdatedAt pq.NullTime `db:"updated_at" json:"updated_at"`
 }
 
 var log = logger.New("bottomline.database")
@@ -36,12 +43,10 @@ func Open(cfg Config) *DB {
 
 	log.Infof("Opening connection to database (%s)", cfg.DBHost)
 
-	db, err := gorm.Open("postgres", dbinfo)
+	db, err := sqlx.Connect("postgres", dbinfo)
 	if err != nil {
-		panic("failed to connect database")
+		panic("Error connecting to database")
 	}
-	db.Exec("SET search_path TO bottomline")
-	db.LogMode(true)
 
 	return &DB{DB: db}
 }

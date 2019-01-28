@@ -1,9 +1,7 @@
 package processconfiguration
 
 import (
-	"github.com/goodcodeguy/bottomline/api/workspace"
 	"github.com/goodcodeguy/bottomline/lib/database"
-	"github.com/jinzhu/gorm"
 )
 
 type ProcessConfigurationRepo struct {
@@ -12,21 +10,24 @@ type ProcessConfigurationRepo struct {
 
 // ProcessConfiguration Describes the over arching configuration for a process
 type ProcessConfiguration struct {
-	gorm.Model
+	database.Model
 
-	Name          string
-	Description   string
-	Configuration string
-	WorkspaceID   int                 `json:"-"`
-	Workspace     workspace.Workspace `json:"workspace,omitempty"`
-}
-
-func (repo ProcessConfigurationRepo) migrate() {
-	repo.db.AutoMigrate(&ProcessConfiguration{})
+	Name          string `json:"name"`
+	Description   string `json:"description"`
+	Configuration string `json:"configuration"`
+	WorkspaceID   int    `db:"workspace_id" json:"-"`
 }
 
 func (repo ProcessConfigurationRepo) getAllProcessConfigurations() []ProcessConfiguration {
 	processConfigurations := []ProcessConfiguration{}
-	repo.db.Preload("Workspace").Find(&processConfigurations)
+	repo.db.Select(&processConfigurations, `SELECT
+																						id,
+																						name,
+																						description,
+																						configuration,
+																						workspace_id,
+																						created_at,
+																						updated_at
+																					FROM bottomline.process_configurations`)
 	return processConfigurations
 }
