@@ -5,12 +5,19 @@ import (
 
 	"github.com/goodcodeguy/bottomline/lib/logger"
 	"github.com/jmoiron/sqlx"
+	"github.com/lib/pq"
 	_ "github.com/lib/pq"
 )
 
 // DB holds the database connection
 type DB struct {
 	*sqlx.DB
+}
+
+type Model struct {
+	Id        uint        `json:"id"`
+	CreatedAt pq.NullTime `db:"created_at" json:"created_at"`
+	UpdatedAt pq.NullTime `db:"updated_at" json:"updated_at"`
 }
 
 var log = logger.New("bottomline.database")

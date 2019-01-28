@@ -6,7 +6,9 @@ import (
 )
 
 type User struct {
-	Name string
+	database.Model
+
+	Name string `json:"name"`
 }
 
 type UserRepo struct {
@@ -16,12 +18,12 @@ type UserRepo struct {
 
 func (repo UserRepo) getAllUsers() []User {
 	users := []User{}
-
+	repo.db.Select(&users, "SELECT id, name, created_at, updated_at FROM bottomline.users")
 	return users
 }
 
 func (repo UserRepo) getUser(id int) (User, error) {
 	user := User{}
-
-	return user, nil
+	err := repo.db.Get(&user, "SELECT * FROM bottomline.users WHERE id = ?", id)
+	return user, err
 }

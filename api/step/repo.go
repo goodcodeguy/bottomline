@@ -31,14 +31,20 @@ func (s StepStatus) String() string {
 }
 
 type Step struct {
-	Name         string
-	Description  string
-	Status       StepStatus
-	ErrorMessage string
+	Name         string     `json:"name"`
+	Description  string     `json:"description"`
+	Status       StepStatus `json:"status"`
+	ErrorMessage string     `db:"error_message" json:"error_message"`
 }
 
 func (repo StepRepo) getAllSteps() []Step {
 	steps := []Step{}
-
+	repo.db.Select(&steps, `SELECT
+														id,
+														name,
+														description,
+														status,
+														error_message
+													FROM bottomline.steps`)
 	return steps
 }
